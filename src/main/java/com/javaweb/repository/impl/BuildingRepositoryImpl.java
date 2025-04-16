@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
+import com.javaweb.builder.BuildingSearchBuilder;
 import com.javaweb.repository.BuildingRepository;
 import com.javaweb.repository.entity.BuildingEntity;
 import com.javaweb.utils.ConnectionDriverUtils;
@@ -19,29 +20,26 @@ import com.javaweb.utils.NumberUtil;
 
 @Repository
 public class BuildingRepositoryImpl implements BuildingRepository {
-	private void sqlJoin(Map<String, Object> params, StringBuilder join) {
+	private void sqlJoin(BuildingSearchBuilder buildingSearchBuilder, StringBuilder join) {
 		
-		//Tìm kiếm theo mã 	
-		Long staffId = (Long) params.get("staffId");
-		if (DataUtil.checkData(staffId)) {
-			join.append(" JOIN assignmentbuilding ab ON b.id = ab.buildingid");
-		}
+		// Nếu có tìm kiếm theo nhân viên (staff)
+	    if (buildingSearchBuilder.getStaffId() != null) {
+	        join.append(" JOIN assignmentbuilding ab ON ab.buildingid = b.id");
+	    }
 
-		// Tìm kiếm theo diện tích thuê
-		Long rentAreaFrom = (Long) params.get("rentAreaFrom");
-		Long rentAreaTo = (Long) params.get("rentAreaTo");
-		if (DataUtil.checkData(rentAreaFrom) || DataUtil.checkData(rentAreaTo)) {
-			join.append(" JOIN rentarea rt ON b.id = rt.buildingid");
-		}
+	    // Nếu có lọc theo loại hình thuê (typeCode)
+	    if (buildingSearchBuilder.getTypeCode() != null && !buildingSearchBuilder.getTypeCode().isEmpty()) {
+	        join.append(" JOIN buildingrenttype brt ON brt.buildingid = b.id");
+	        join.append(" JOIN renttype rt ON rt.id = brt.renttypeid");
+	    }
 
-		String typeCode = (String) params.get("typeCode");
-		if (DataUtil.checkData(typeCode)) {
-			join.append(" JOIN buildingrenttype bt ON b.id = bt.buildingid");
-			join.append(" JOIN renttype ON renttype.id = bt.renttypeid");
-		}
+	    // Nếu có lọc theo diện tích thuê
+	    if (buildingSearchBuilder.getRentAreaFrom() != null || buildingSearchBuilder.getRentAreaTo() != null) {
+	        join.append(" JOIN rentarea ra ON ra.buildingid = b.id");
+	    }
 	}
 
-	private void sqlWhereSpecial(Map<String, Object> params, StringBuilder where, List<String> typeCode) {
+	private void sqlWhereSpecial(BuildingSearchBuilder buildingSearchBuilder, List<String> typeCode) {
 	    // Xử lý staffId
 	    Long staffId = params.get("staffId") != null ? Long.valueOf(params.get("staffId").toString()) : null;
 	    if (DataUtil.checkData(staffId)) {
@@ -96,7 +94,7 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 	}
 
 	@Override
-	public List<BuildingEntity> findAll(Map<String, Object> params, List<String> typeCode) {
+	public List<BuildingEntity> findAll(BuildingSearchBuilder buildingSearchBuilder) {
 
 		StringBuilder sql = new StringBuilder("SELECT b.* FROM building b "); //Câu truy vấn 
 		sqlJoin(params, sql);
