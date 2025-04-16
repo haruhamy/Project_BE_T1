@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 import com.javaweb.repository.BuildingRepository;
@@ -69,11 +70,11 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 
 	    // Xử lý typeCode
 	    if (typeCode != null && !typeCode.isEmpty()) {
-	        List<String> codeList = new ArrayList<>();
-	        for (String it : typeCode) {
-	            codeList.add("'" + it + "'"); // Bao quanh mỗi typeCode bằng dấu nháy đơn
-	        }
-	        where.append(" AND renttype.code IN (").append(String.join(",", codeList)).append(")");
+	        where.append(" AND renttype.code IN (")
+	             .append(typeCode.stream()
+	                             .map(i -> "'" + i + "'")
+	                             .collect(Collectors.joining(",")))
+	             .append(")");
 	    }
 	}
 
