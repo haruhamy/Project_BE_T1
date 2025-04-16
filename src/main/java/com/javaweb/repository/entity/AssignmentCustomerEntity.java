@@ -10,29 +10,32 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name ="transaction")
-public class TransactionEntity {
+@Table(name ="assignmentcustomer")
+public class AssignmentCustomerEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(name ="note")
-	private String note;
 	
+	private Long staffId;
 	private Long customerId;
+	
 	@Column(name ="createddate")
 	private LocalDate createdDate;
+	
 	@Column(name ="modifieddate")
 	private LocalDate modifiedDate;
+	
 	@Column(name ="createdby")
 	private String createdBy;
+	
 	@Column(name ="modifiedby")
 	private String modifiedBy;
 	
 	public Long getId() {
 		return id;
 	}
-	public String getNote() {
-		return note;
+	public Long getStaffId() {
+		return staffId;
 	}
 	public Long getCustomerId() {
 		return customerId;
@@ -52,8 +55,8 @@ public class TransactionEntity {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public void setNote(String note) {
-		this.note = note;
+	public void setStaffId(Long staffId) {
+		this.staffId = staffId;
 	}
 	public void setCustomerId(Long customerId) {
 		this.customerId = customerId;

@@ -27,7 +27,6 @@ public class RentAreaRepositoryImpl implements RentAreaRepository{
 
 	        while(rs.next()){
 	            RentAreaEntity rentAreaEntity = new RentAreaEntity();
-	            rentAreaEntity.setBuildingId(rs.getLong("buildingid"));
 	            rentAreaEntity.setId(rs.getLong("id"));
 	            rentAreaEntity.setValue(rs.getLong("value"));
 	            result.add(rentAreaEntity);

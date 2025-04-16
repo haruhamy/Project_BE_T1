@@ -1,6 +1,6 @@
 package com.javaweb.repository.entity;
 
-import java.time.LocalDate;
+import java.security.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,30 +10,24 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name ="role")
-public class RoleEntity {
+@Table(name ="transactiontype")
+public class TransactionTypeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(name ="name" , nullable = false )
-	private String name; 
+	private String name;
 	@Column(name ="code" , nullable = false )
-	private String code; 
+	private String code;
 	@Column(name ="createddate")
-	private LocalDate createdDate;
+	private Timestamp createdData;
 	@Column(name ="modifieddate")
-	private LocalDate modifiedDate;
+	private Timestamp modifiedData;
 	@Column(name ="createdby")
 	private String createdBy;
 	@Column(name ="modifiedby")
 	private String modifiedBy;
-	
-//	@OneToMany(mappedBy ="roleEntity")
-//	private List<UserRoleEntity> roleUserEntity;
-//	
-	
-	
-	
+	private Long transactionId;
 	public Long getId() {
 		return id;
 	}
@@ -43,17 +37,20 @@ public class RoleEntity {
 	public String getCode() {
 		return code;
 	}
-	public LocalDate getCreatedDate() {
-		return createdDate;
+	public Timestamp getCreatedData() {
+		return createdData;
 	}
-	public LocalDate getModifiedDate() {
-		return modifiedDate;
+	public Timestamp getModifiedData() {
+		return modifiedData;
 	}
 	public String getCreatedBy() {
 		return createdBy;
 	}
 	public String getModifiedBy() {
 		return modifiedBy;
+	}
+	public Long getTransactionId() {
+		return transactionId;
 	}
 	public void setId(Long id) {
 		this.id = id;
@@ -64,11 +61,11 @@ public class RoleEntity {
 	public void setCode(String code) {
 		this.code = code;
 	}
-	public void setCreatedDate(LocalDate createdDate) {
-		this.createdDate = createdDate;
+	public void setCreatedData(Timestamp createdData) {
+		this.createdData = createdData;
 	}
-	public void setModifiedDate(LocalDate modifiedDate) {
-		this.modifiedDate = modifiedDate;
+	public void setModifiedData(Timestamp modifiedData) {
+		this.modifiedData = modifiedData;
 	}
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
@@ -76,12 +73,10 @@ public class RoleEntity {
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
-//	public List<UserRoleEntity> getRoleUserEntity() {
-//		return roleUserEntity;
-//	}
-//	public void setRoleUserEntity(List<UserRoleEntity> roleUserEntity) {
-//		this.roleUserEntity = roleUserEntity;
-//	}
+	public void setTransactionId(Long transactionId) {
+		this.transactionId = transactionId;
+	}
+	
 	
 	
 }

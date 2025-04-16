@@ -1,30 +1,22 @@
 package com.javaweb.repository.entity;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name ="district")
-public class DistrictEntity {
+@Table(name ="renttype")
+public class RentTypeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(name ="code" , nullable = false ,unique = true)
+	@Column(name ="code" , nullable = false , unique = true)
 	private String code;
-	@Column(name ="name" , nullable = false  )
+	@Column(name ="name" , nullable = false )
 	private String name;
-	
-	@OneToMany(mappedBy = "districtEntity", fetch = FetchType.LAZY)
-	private List<BuildingEntity> buildingEntity;
-	
 	public Long getId() {
 		return id;
 	}
@@ -42,12 +34,6 @@ public class DistrictEntity {
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public List<BuildingEntity> getBuildingEntity() {
-		return buildingEntity;
-	}
-	public void setBuildingEntity(List<BuildingEntity> buildingEntity) {
-		this.buildingEntity = buildingEntity;
 	}
 	
 	
