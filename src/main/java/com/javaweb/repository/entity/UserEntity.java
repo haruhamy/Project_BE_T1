@@ -39,9 +39,6 @@ public class UserEntity {
 	private String createdBy;
 	@Column(name ="modifiedby")
 	private String modifiedBy;
-//	
-//	@OneToMany(mappedBy="userEntity")
-//	private List<UserRoleEntity> userRoleEntity;
 	
 	public Long getId() {
 		return id;
@@ -109,11 +106,5 @@ public class UserEntity {
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
-//	public List<UserRoleEntity> getUserRoleEntity() {
-//		return userRoleEntity;
-//	}
-//	public void setUserRoleEntity(List<UserRoleEntity> userRoleEntity) {
-//		this.userRoleEntity = userRoleEntity;
-//	}
 
 }
