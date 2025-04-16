@@ -13,19 +13,15 @@ import org.springframework.stereotype.Repository;
 import com.javaweb.repository.RentAreaRepository;
 import com.javaweb.repository.entity.DistrictEntity;
 import com.javaweb.repository.entity.RentAreaEntity;
+import com.javaweb.utils.ConnectionDriverUtils;
 
 @Repository
-public class RentAreaRepositoryImpl implements RentAreaRepository{
-
-	static final String DB_URL = "jdbc:mysql://localhost:3306/estatebasic";
-	static final String USER = "root";
-	static final String PASS = "titansword";
-	
+public class RentAreaRepositoryImpl implements RentAreaRepository{	
 	@Override
 	public List<RentAreaEntity> findByBuilding(Long buildingId) {
 		String sql = "SELECT * FROM rentarea WHERE 1=1 AND buildingId =" + buildingId;
 		List<RentAreaEntity> result = new ArrayList<RentAreaEntity>();
-		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+		try (Connection conn = ConnectionDriverUtils.getConnection();
 		         Statement stm = conn.createStatement();
 		         ResultSet rs = stm.executeQuery(sql.toString())) {	
 

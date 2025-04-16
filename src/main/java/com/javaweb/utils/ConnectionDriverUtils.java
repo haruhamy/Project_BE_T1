@@ -16,7 +16,7 @@ public class ConnectionDriverUtils {
     static final String USER = "root";
     
     // Mật khẩu đăng nhập MySQL
-    static final String PASS = "123456";
+    static final String PASS = "titansword";
 
     /**
      * Phương thức static giúp lấy đối tượng Connection tới database

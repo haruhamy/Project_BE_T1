@@ -1,7 +1,6 @@
 package com.javaweb.repository.impl;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -10,23 +9,24 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
+
 import com.javaweb.repository.BuildingRepository;
 import com.javaweb.repository.entity.BuildingEntity;
+import com.javaweb.utils.ConnectionDriverUtils;
 import com.javaweb.utils.DataUtil;
 import com.javaweb.utils.NumberUtil;
 
 @Repository
 public class BuildingRepositoryImpl implements BuildingRepository {
-	static final String DB_URL = "jdbc:mysql://localhost:3306/estatebasic";
-	static final String USER = "root";
-	static final String PASS = "titansword";
-
 	private void sqlJoin(Map<String, Object> params, StringBuilder join) {
+		
+		//Tìm kiếm theo mã 	
 		Long staffId = (Long) params.get("staffId");
 		if (DataUtil.checkData(staffId)) {
 			join.append(" JOIN assignmentbuilding ab ON b.id = ab.buildingid");
 		}
 
+		// Tìm kiếm theo diện tích thuê
 		Long rentAreaFrom = (Long) params.get("rentAreaFrom");
 		Long rentAreaTo = (Long) params.get("rentAreaTo");
 		if (DataUtil.checkData(rentAreaFrom) || DataUtil.checkData(rentAreaTo)) {
@@ -97,7 +97,7 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 	@Override
 	public List<BuildingEntity> findAll(Map<String, Object> params, List<String> typeCode) {
 
-		StringBuilder sql = new StringBuilder("SELECT b.* FROM building b ");
+		StringBuilder sql = new StringBuilder("SELECT b.* FROM building b "); //Câu truy vấn 
 		sqlJoin(params, sql);
 		StringBuilder where = new StringBuilder(" Where 1=1");
 		sqlWhereNormal(params, where);
@@ -111,7 +111,7 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 		}
 
 		List<BuildingEntity> results = new ArrayList<>();
-		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+		try (Connection conn = ConnectionDriverUtils.getConnection();
 				Statement stm = conn.createStatement();
 				ResultSet rs = stm.executeQuery(sql.toString())) {
 
